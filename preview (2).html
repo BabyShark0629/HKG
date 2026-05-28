@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red Bird Interview Presentation | Shuyuan Zhao</title>
+  <style>
+    :root {
+      --bg-0: #08111f;
+      --bg-1: #0e1a2e;
+      --bg-2: #132742;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-strong: rgba(255, 255, 255, 0.13);
+      --line: rgba(255, 255, 255, 0.18);
+      --text: #f5f8ff;
+      --muted: #b8c3d9;
+      --muted-2: #8392b1;
+      --cyan: #62d9ff;
+      --teal: #6df0d2;
+      --gold: #ffd166;
+      --rose: #ff7aa2;
+      --green: #9cf26f;
+      --purple: #c79aff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 28px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at 8% 12%, rgba(98, 217, 255, 0.25), transparent 27%),
+        radial-gradient(circle at 88% 18%, rgba(199, 154, 255, 0.20), transparent 26%),
+        radial-gradient(circle at 70% 85%, rgba(109, 240, 210, 0.16), transparent 28%),
+        linear-gradient(135deg, var(--bg-0), var(--bg-1) 45%, #0b1528);
+      color: var(--text);
+      font-family: var(--font);
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0.85), transparent 76%);
+      pointer-events: none;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(1500px, calc(100vw - 56px));
+      height: min(844px, calc(100vh - 56px));
+      display: none;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.055)),
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      transform: translateY(18px) scale(0.985);
+      opacity: 0;
+    }
+
+    .slide.active {
+      display: block;
+      animation: slideIn 520ms cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    @keyframes slideIn {
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 92% 9%, rgba(255, 209, 102, 0.11), transparent 18%),
+        radial-gradient(circle at 12% 90%, rgba(98, 217, 255, 0.09), transparent 20%);
+      pointer-events: none;
+    }
+
+    .slide-inner {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 54px 64px 44px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 26px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 20px rgba(109, 240, 210, 0.95);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(52px, 5.2vw, 86px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      max-width: 980px;
+    }
+
+    h2 {
+      font-size: clamp(42px, 4vw, 67px);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      max-width: 1100px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, #b8f6ff 40%, #ffe6a2 78%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 25px;
+      line-height: 1.42;
+      max-width: 900px;
+      margin-top: 20px;
+    }
+
+    .time-chip {
+      flex: 0 0 auto;
+      min-width: 132px;
+      text-align: center;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 17px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .three-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .two-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      background: var(--card);
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .card.strong { background: var(--card-strong); }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(98, 217, 255, 0.75), rgba(255, 209, 102, 0.7), transparent);
+      opacity: 0.8;
+    }
+
+    .card-title {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .card-text {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.43;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .pill {
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .quote-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100%;
+      padding: 34px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(98, 217, 255, 0.13), rgba(255,255,255,0.06)),
+        rgba(255,255,255,0.06);
+      border: 1px solid rgba(98, 217, 255, 0.24);
+    }
+
+    .quote-mark {
+      color: var(--gold);
+      font-size: 82px;
+      line-height: 0.55;
+      font-weight: 800;
+      opacity: 0.9;
+    }
+
+    .quote {
+      font-size: 34px;
+      line-height: 1.18;
+      letter-spacing: -0.04em;
+      font-weight: 760;
+      margin-top: 10px;
+    }
+
+    .quote-sub {
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.45;
+      margin-top: 18px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .flow-card {
+      min-height: 242px;
+      padding: 24px 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.15);
+      position: relative;
+    }
+
+    .flow-card:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -18px;
+      top: 50%;
+      transform: translate(50%, -50%);
+      color: var(--teal);
+      font-size: 28px;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    .flow-num {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #07111d;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      margin-bottom: 18px;
+    }
+
+    .flow-card:nth-child(2) .flow-num { background: linear-gradient(135deg, var(--gold), #ffeba8); }
+    .flow-card:nth-child(3) .flow-num { background: linear-gradient(135deg, var(--rose), #ffc1d1); }
+    .flow-card:nth-child(4) .flow-num { background: linear-gradient(135deg, var(--purple), #eadbff); }
+
+    .flow-title { font-size: 23px; font-weight: 760; letter-spacing: -0.03em; margin-bottom: 10px; }
+    .flow-text { color: var(--muted); font-size: 17px; line-height: 1.42; }
+
+    .compact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.36;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #06101d;
+      background: var(--teal);
+      font-size: 14px;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+
+    .pilot-grid {
+      display: grid;
+      grid-template-columns: 0.98fr 1.02fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 18px;
+      min-height: 0;
+    }
+
+    .mini-title {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 13px;
+      margin-bottom: 12px;
+      font-weight: 760;
+    }
+
+    .bars {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 112px 1fr 54px;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .bar-track {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--teal));
+    }
+
+    .data-route {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .route-box {
+      min-height: 74px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.13);
+      background: rgba(255,255,255,0.065);
+      font-size: 15px;
+      line-height: 1.25;
+      color: var(--muted);
+    }
+
+    .route-box strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+    .index-triangle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .index-box {
+      padding: 14px 12px;
+      border-radius: 18px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.065);
+    }
+
+    .index-box .big { display: block; font-size: 22px; font-weight: 840; margin-bottom: 5px; }
+    .index-box .small { color: var(--muted); font-size: 13px; line-height: 1.25; }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 9px;
+      align-items: stretch;
+      margin-top: 14px;
+    }
+
+    .workflow .step {
+      position: relative;
+      padding: 15px 9px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.2;
+      color: var(--muted);
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .workflow .step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -9px;
+      top: 50%;
+      transform: translate(50%, -50%);
+      color: var(--gold);
+      font-weight: 900;
+      z-index: 2;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      min-height: 0;
+    }
+
+    .role-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .role-box {
+      padding: 17px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.065);
+    }
+
+    .role-box strong { display: block; font-size: 18px; margin-bottom: 7px; }
+    .role-box span { color: var(--muted); font-size: 15.5px; line-height: 1.35; }
+
+    .venn {
+      position: relative;
+      height: 340px;
+      margin-top: 10px;
+    }
+
+    .circle {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      font-size: 18px;
+      font-weight: 760;
+      line-height: 1.15;
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+
+    .c1 { left: 30px; top: 44px; background: rgba(98,217,255,0.18); }
+    .c2 { left: 180px; top: 44px; background: rgba(255,209,102,0.18); }
+    .c3 { left: 105px; top: 150px; background: rgba(109,240,210,0.16); }
+    .center-label {
+      position: absolute;
+      left: 155px;
+      top: 138px;
+      width: 120px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(8,17,31,0.75);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 14px;
+      color: #fff;
+      text-align: center;
+      font-weight: 840;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+    }
+
+    .close-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .tag {
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted-2);
+      font-size: 14px;
+      min-height: 32px;
+    }
+
+    .progress-wrap {
+      position: fixed;
+      left: 28px;
+      right: 28px;
+      bottom: 18px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      z-index: 50;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--teal), var(--gold));
+      transition: width 240ms ease;
+    }
+
+    .controls {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 60;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .control-btn {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-family: var(--font);
+      font-size: 14px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+    }
+
+    .control-btn:hover { background: rgba(255,255,255,0.14); }
+
+    .slide-dots {
+      position: fixed;
+      left: 26px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .slide-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.24);
+      border: 0;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .slide-dot.active {
+      height: 34px;
+      background: linear-gradient(180deg, var(--cyan), var(--teal));
+    }
+
+    .timer {
+      position: fixed;
+      left: 24px;
+      top: 18px;
+      z-index: 60;
+      padding: 10px 14px;
+      min-width: 92px;
+      text-align: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      font-size: 14px;
+      backdrop-filter: blur(12px);
+    }
+
+    .notes-panel {
+      position: fixed;
+      right: 24px;
+      bottom: 32px;
+      width: min(560px, calc(100vw - 48px));
+      max-height: 48vh;
+      overflow-y: auto;
+      z-index: 80;
+      padding: 20px 22px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(8, 17, 31, 0.88);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.38);
+      display: none;
+    }
+
+    .notes-panel.show { display: block; }
+    .notes-panel h3 { font-size: 20px; margin-bottom: 10px; }
+    .notes-panel p { color: var(--muted); font-size: 16px; line-height: 1.46; margin-bottom: 10px; }
+    .notes-panel .cn { color: #d8e1f6; opacity: 0.92; }
+
+    .source-note {
+      color: var(--muted-2);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 10px;
+    }
+
+    a { color: #b8f6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    @media (max-width: 980px) {
+      body { overflow: auto; }
+      .deck { height: auto; min-height: 100vh; overflow: auto; padding: 16px; }
+      .slide { position: relative; width: 100%; height: auto; min-height: calc(100vh - 32px); display: none; }
+      .slide-inner { padding: 36px 28px 42px; }
+      .main-grid, .two-grid, .matrix, .pilot-grid, .close-grid { grid-template-columns: 1fr; }
+      .three-grid, .flow, .workflow, .data-route, .index-triangle { grid-template-columns: 1fr; }
+      .flow-card:not(:last-child)::after, .workflow .step:not(:last-child)::after { display: none; }
+      .slide-dots { display: none; }
+      h1 { font-size: 46px; }
+      h2 { font-size: 40px; }
+      .venn { display: none; }
+      .bar-row { grid-template-columns: 95px 1fr 50px; }
+    }
+
+    @media print {
+      html, body { overflow: visible; background: #08111f; }
+      .controls, .timer, .progress-wrap, .slide-dots, .notes-panel { display: none !important; }
+      .deck { display: block; height: auto; padding: 0; }
+      .slide { position: relative; display: block !important; opacity: 1 !important; transform: none !important; page-break-after: always; width: 100vw; height: 56.25vw; max-height: 100vh; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="timer" id="timer">05:00</div>
+  <div class="controls">
+    <button class="control-btn" id="prevBtn">← Prev</button>
+    <button class="control-btn" id="nextBtn">Next →</button>
+    <button class="control-btn" id="notesBtn">Notes</button>
+    <button class="control-btn" id="timerBtn">Start 5:00</button>
+    <button class="control-btn" id="fullBtn">Full</button>
+  </div>
+  <div class="slide-dots" id="dots"></div>
+
+  <main class="deck" id="deck">
+    <!-- Slide 1 -->
+    <section class="slide active" data-note-title="Slide 1 | Opening" data-note-en="Start slowly. Do not jump into drones. The point is your identity: statistics + vulnerability + public service decisions. Suggested timing: 35 to 40 seconds." data-note-cn="开场慢一点。不要一上来讲无人机。先让老师记住你的定位：统计学 + 脆弱性 + 公共服务决策。建议35-40秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> HKUST(GZ) Red Bird MPhil Interview</div>
+            <h1><span class="gradient-text">From Data</span><br/>to Public Service Decisions</h1>
+            <p class="subtitle">Shuyuan Zhao · Statistics Undergraduate · Guangzhou University</p>
+          </div>
+          <div class="time-chip">0:00–0:40</div>
+        </header>
+        <div class="main-grid">
+          <div class="quote-card">
+            <div class="quote-mark">“</div>
+            <p class="quote">Data is not only about prediction. It can also help us understand vulnerability.</p>
+            <p class="quote-sub">My research interest lies at the intersection of statistical modeling, public health, and urban public service decisions.</p>
+          </div>
+          <div class="three-grid" style="grid-template-columns: 1fr;">
+            <div class="card strong">
+              <div class="card-title">Academic Foundation</div>
+              <p class="card-text">Probability · Mathematical Statistics · Regression · Data Mining · Time Series · Multivariate Analysis</p>
+            </div>
+            <div class="card strong">
+              <div class="card-title">Research Pattern</div>
+              <p class="card-text">Turning real-world questions into variables, indicators, models, and evaluation criteria.</p>
+            </div>
+            <div class="card strong">
+              <div class="card-title">Personal Positioning</div>
+              <p class="card-text">A statistics student who wants to connect data, people, and public service decisions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span>Needs-Based Planning for Low-Altitude Emergency Medical Resupply</span><span>01 / 06</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" data-note-title="Slide 2 | Story transition" data-note-en="Use the health-risk project to bring in older adults naturally. Emphasize that variables are signals for urban support, not just model inputs. Suggested timing: 45 to 55 seconds." data-note-cn="用中老年健康风险项目自然引出老年群体。强调变量不只是模型输入，也是城市识别谁需要支持的信号。建议45-55秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Why this topic</div>
+            <h2>Older adults are not one homogeneous group.</h2>
+            <p class="subtitle">Health-risk analysis made me think about vulnerability during service interruptions.</p>
+          </div>
+          <div class="time-chip">0:40–1:30</div>
+        </header>
+        <div class="main-grid">
+          <div class="card strong">
+            <div class="mini-title">From CHARLS health-risk analysis</div>
+            <div class="compact-list">
+              <div class="list-item"><span class="check">✓</span><span>Chronic disease and medication dependence</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Mobility limitation and cognitive decline</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Weak family or community care support</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Limited access to medical services</span></div>
+            </div>
+            <div class="pill-row">
+              <span class="pill">health indicators</span>
+              <span class="pill">risk signals</span>
+              <span class="pill">service priorities</span>
+            </div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-mark">?</div>
+            <p class="quote">If normal services are interrupted, who may need emergency support first?</p>
+            <p class="quote-sub">This question moved my attention from health data to urban public service planning.</p>
+          </div>
+        </div>
+        <div class="footer"><span>Health risk → vulnerability → service priority</span><span>02 / 06</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" data-note-title="Slide 3 | Research proposal" data-note-en="This is the technical core. Keep it clear and verbal. Do not read every word. Core sentence: not whether drones can deliver, but how cities decide priority, nodes, and trade-offs. Suggested timing: 95 to 110 seconds." data-note-cn="这是技术核心。讲清楚但不要逐字读。核心句：不只是无人机能否配送，而是城市如何决定优先对象、节点和权衡。建议95-110秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Research Proposal</div>
+            <h2>Needs-Based Planning for Low-Altitude Emergency Medical Resupply</h2>
+            <p class="subtitle">Serving high-risk older adults through demand identification, spatial networks, scenario comparison, and evaluation.</p>
+          </div>
+          <div class="time-chip">1:30–3:10</div>
+        </header>
+        <div class="flow">
+          <div class="flow-card">
+            <div class="flow-num">1</div>
+            <div class="flow-title">Demand Identification</div>
+            <p class="flow-text">Identify high-risk older adults through health risk, service accessibility, and care support.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-num">2</div>
+            <div class="flow-title">Spatial Network</div>
+            <p class="flow-text">Connect medical institutions, public health service nodes, possible low-altitude nodes, and communities.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-num">3</div>
+            <div class="flow-title">Scenario Comparison</div>
+            <p class="flow-text">Compare ground-based resupply, low-altitude node access, and air-ground coordination.</p>
+          </div>
+          <div class="flow-card">
+            <div class="flow-num">4</div>
+            <div class="flow-title">Multi-Objective Evaluation</div>
+            <p class="flow-text">Evaluate cost, response time, coverage, and equitable accessibility.</p>
+          </div>
+        </div>
+        <div class="card strong" style="padding: 20px 24px;">
+          <div class="card-title" style="font-size: 25px; margin-bottom: 6px;">Core question</div>
+          <p class="card-text" style="font-size: 20px;">Not simply whether drones can deliver medicine, but how data can help a city decide where resources are most needed and who should be served first.</p>
+        </div>
+        <div class="footer"><span>Demand → Network → Scenario → Evaluation</span><span>03 / 06</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" data-note-title="Slide 4 | Preliminary work" data-note-en="This is the most important slide for credibility. Use the phrase: a small and realistic pilot plan. Do not say final demand estimation. Say data feasibility, preliminary demand nodes, questionnaire structure, demand index, and data route. Suggested timing: 65 to 75 seconds." data-note-cn="这是最能增加可信度的一页。用“小而现实的试点计划”。不要说最终需求测算。说数据可得性、初步需求节点、问卷结构、需求指标、数据路线。建议65-75秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Preliminary Work · Nansha Pilot</div>
+            <h2>A small, realistic pilot route.</h2>
+            <p class="subtitle">From policy context and public data to questionnaire-based demand identification.</p>
+          </div>
+          <div class="time-chip">3:10–4:15</div>
+        </header>
+        <div class="pilot-grid">
+          <div class="card strong">
+            <div class="mini-title">A. Data feasibility</div>
+            <div class="data-route">
+              <div class="route-box"><strong>Policy</strong>Nansha low-altitude economy & public service scenarios</div>
+              <div class="route-box"><strong>Population</strong>9 town/subdistrict demand-node baseline</div>
+              <div class="route-box"><strong>Facilities</strong>Medical + public health service nodes</div>
+            </div>
+            <p class="source-note">Planning-stage evidence: public policy documents, census bulletin, and facility lists.</p>
+          </div>
+
+          <div class="card strong">
+            <div class="mini-title">B. Preliminary demand nodes</div>
+            <div class="bars">
+              <div class="bar-row"><span>Nansha</span><div class="bar-track"><div class="bar" style="width:100%"></div></div><span>28.01%</span></div>
+              <div class="bar-row"><span>Dongchong</span><div class="bar-track"><div class="bar" style="width:72%"></div></div><span>20.17%</span></div>
+              <div class="bar-row"><span>Dagang</span><div class="bar-track"><div class="bar" style="width:48%"></div></div><span>13.50%</span></div>
+              <div class="bar-row"><span>Huangge</span><div class="bar-track"><div class="bar" style="width:40%"></div></div><span>11.20%</span></div>
+              <div class="bar-row"><span>Lanhe</span><div class="bar-track"><div class="bar" style="width:38%"></div></div><span>10.51%</span></div>
+              <div class="bar-row"><span>Others</span><div class="bar-track"><div class="bar" style="width:59%"></div></div><span>16.61%</span></div>
+            </div>
+            <p class="source-note">Population is only the first-layer demand proxy; survey data will refine high-risk demand.</p>
+          </div>
+
+          <div class="card strong">
+            <div class="mini-title">C + D. Questionnaire & demand index</div>
+            <div class="index-triangle">
+              <div class="index-box"><span class="big">Health</span><span class="small">chronic disease · medication · mobility</span></div>
+              <div class="index-box"><span class="big">Access</span><span class="small">distance · travel difficulty · digital access</span></div>
+              <div class="index-box"><span class="big">Care</span><span class="small">living alone · family · community support</span></div>
+            </div>
+            <p class="card-text" style="font-size: 16px; margin-top: 15px;">Questionnaire modules: basic information, health risk, service accessibility, care support, emergency resupply need.</p>
+          </div>
+
+          <div class="card strong">
+            <div class="mini-title">E. Pilot workflow</div>
+            <div class="workflow">
+              <div class="step">Policy scenario</div>
+              <div class="step">Demand nodes</div>
+              <div class="step">Supply nodes</div>
+              <div class="step">Candidate low-altitude nodes</div>
+              <div class="step">Coverage & equity</div>
+            </div>
+            <p class="card-text" style="font-size: 16px; margin-top: 17px;">Expected output: individual demand score → community/grid demand weight → network-model input.</p>
+          </div>
+        </div>
+        <div class="footer"><span>Nansha public data + questionnaire design + three-dimensional demand index</span><span>04 / 06</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide" data-note-title="Slide 5 | Collaboration and why me" data-note-en="Do not list all experiences. Tell an ability-growth story: statistics foundation, CHARLS health-risk project, optimization project, survey project. Then say what you can contribute and what you need from other disciplines. Suggested timing: 50 to 60 seconds." data-note-cn="不要罗列所有经历。讲能力成长线：统计基础、CHARLS健康风险、优化项目、问卷项目。再讲你贡献什么、需要和谁合作。建议50-60秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Collaboration · Why Me</div>
+            <h2>I bring the demand-side and evaluation-side perspective.</h2>
+            <p class="subtitle">This project needs more than statistics, but statistics can make the planning process measurable.</p>
+          </div>
+          <div class="time-chip">4:15–5:05</div>
+        </header>
+        <div class="matrix">
+          <div class="card strong">
+            <div class="mini-title">My preparation</div>
+            <div class="role-map">
+              <div class="role-box"><strong>Statistics</strong><span>indicator construction, modeling, uncertainty, evaluation</span></div>
+              <div class="role-box"><strong>Health risk</strong><span>CHARLS-based frailty factors and vulnerable-group identification</span></div>
+              <div class="role-box"><strong>Optimization</strong><span>objectives, constraints, trade-offs, scenario thinking</span></div>
+              <div class="role-box"><strong>Survey research</strong><span>questionnaire, interview, clustering, real user needs</span></div>
+            </div>
+          </div>
+          <div class="card strong">
+            <div class="mini-title">Interdisciplinary collaboration</div>
+            <div class="venn">
+              <div class="circle c1">Intelligent<br/>Transportation</div>
+              <div class="circle c2">Urban Governance<br/>& GeoAI</div>
+              <div class="circle c3">Human-Centered<br/>Aging Research</div>
+              <div class="center-label">Public Service<br/>Decision</div>
+            </div>
+            <p class="card-text" style="margin-top: -6px;">I can contribute demand identification, indicator design, data analysis, and scheme evaluation.</p>
+          </div>
+        </div>
+        <div class="footer"><span>Not replacing other disciplines — adding a necessary layer</span><span>05 / 06</span></div>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide" data-note-title="Slide 6 | Why HKUST(GZ) and closing" data-note-en="Finish with fit, not flattery. Mention that HKUST(GZ) lets data science meet transportation, urban governance, and public service innovation. Close with data-people-public service decision. Suggested timing: 45 to 55 seconds." data-note-cn="结尾讲匹配，不要模板夸学校。强调科广让数据科学与交通、城市治理、公共服务创新相遇。最后用数据-人群-公共服务决策收束。建议45-55秒。">
+      <div class="slide-inner">
+        <header>
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Why HKUST(GZ) · Why Red Bird</div>
+            <h2>Where data science can meet real urban challenges.</h2>
+            <p class="subtitle">The Greater Bay Area provides the context; Red Bird provides the interdisciplinary project environment.</p>
+          </div>
+          <div class="time-chip">5:05–5:30</div>
+        </header>
+        <div class="close-grid">
+          <div class="card strong">
+            <div class="card-title">Program fit</div>
+            <div class="compact-list">
+              <div class="list-item"><span class="check">✓</span><span>Data Science and Analytics: demand modeling and evaluation</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Intelligent Transportation: low-altitude nodes and air-ground coordination</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Urban Governance and Design: accessibility, equity, implementation</span></div>
+              <div class="list-item"><span class="check">✓</span><span>Human-centered research: older adults, acceptance, real needs</span></div>
+            </div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-mark">“</div>
+            <p class="quote">What I hope to bring is a way of connecting data, people, and public service decisions.</p>
+            <div class="tag-cloud">
+              <span class="tag">vulnerability</span>
+              <span class="tag">low-altitude economy</span>
+              <span class="tag">emergency resupply</span>
+              <span class="tag">equity</span>
+              <span class="tag">Greater Bay Area</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span>Thank you.</span><span>06 / 06</span></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="notes-panel" id="notesPanel"></aside>
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsWrap = document.getElementById('dots');
+    const progress = document.getElementById('progress');
+    const notesPanel = document.getElementById('notesPanel');
+    const timerEl = document.getElementById('timer');
+    let current = 0;
+    let timerInterval = null;
+    let remaining = 5 * 60;
+
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      b.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(b);
+    });
+
+    const dots = Array.from(document.querySelectorAll('.slide-dot'));
+
+    function updateNotes() {
+      const s = slides[current];
+      notesPanel.innerHTML = `<h3>${s.dataset.noteTitle || 'Speaker notes'}</h3>
+        <p>${s.dataset.noteEn || ''}</p>
+        <p class="cn">${s.dataset.noteCn || ''}</p>`;
+    }
+
+    function goTo(i) {
+      current = Math.max(0, Math.min(i, slides.length - 1));
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+      progress.style.width = ((current + 1) / slides.length * 100) + '%';
+      updateNotes();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('notesBtn').addEventListener('click', () => notesPanel.classList.toggle('show'));
+    document.getElementById('fullBtn').addEventListener('click', () => {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    });
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      remaining = 5 * 60;
+      timerEl.textContent = formatTime(remaining);
+      timerInterval = setInterval(() => {
+        remaining -= 1;
+        timerEl.textContent = formatTime(Math.max(0, remaining));
+        if (remaining <= 0) clearInterval(timerInterval);
+      }, 1000);
+    }
+
+    document.getElementById('timerBtn').addEventListener('click', startTimer);
+
+    document.addEventListener('keydown', (e) => {
+      const key = e.key.toLowerCase();
+      if (key === 'arrowright' || key === 'page down' || key === ' ') next();
+      if (key === 'arrowleft' || key === 'page up') prev();
+      if (key === 'n') notesPanel.classList.toggle('show');
+      if (key === 't') startTimer();
+      if (key === 'f') document.getElementById('fullBtn').click();
+      if (key >= '1' && key <= String(slides.length)) goTo(Number(key) - 1);
+    });
+
+    goTo(0);
+  </script>
+</body>
+</html>
